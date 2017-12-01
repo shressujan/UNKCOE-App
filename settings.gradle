@@ -1,0 +1,1 @@
+include ':app', ':jsch-0.1.54', ':mysql-connector-java-5.1.44-bin', ':jtds-1.3.1-sources'

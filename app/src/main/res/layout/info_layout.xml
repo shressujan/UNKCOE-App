@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/homePage_layout"
+    tools:context="com.example.sujanshrestha.unkcoeapp.info">
+
+    <!--<ImageView-->
+        <!--android:id="@+id/imageView1"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="fill_parent"-->
+        <!--android:layout_alignParentLeft="true"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:scaleType="fitXY"-->
+        <!--android:src="@drawable/background" />-->
+
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="This is an android platform base mobile app
+ \ndeveloped only for College of Education at University of Nebraska-Kearney.
+\nIntended Use : To keep records of all the inventories at College of Ed.\n
+Date of Creation: Dec 12, 2017\n
+Designed by: Sujan Shrestha\n
+Contact email: shresthas8@lopers.unk.edu\n
+Contact Num: 931-252-6570\n
+Associate Designer: Jay Chaudhary\n
+Contact email: jay1519@gmail.com\n
+Contact Num:308-529-8267"
+        android:textColor="@android:color/background_dark"
+        android:textSize="20dp"
+        tools:textColor="@android:color/black" />
+</RelativeLayout>

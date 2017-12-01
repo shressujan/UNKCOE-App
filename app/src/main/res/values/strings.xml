@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">UnkCoeApp</string>
+    <string name="log_in">Log In</string>
+    <string name="add">Add</string>
+    <string name="delete">delete</string>
+    <string name="edit">edit</string>
+    <string name="view">view</string>
+    <string name="info">Info</string>
+    <string name="unk_coe_inventory_database">COE Database</string>
+    <string name="homepage">HomePage</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="report">Report</string>
+    <string name="add_record">Add Record</string>
+    <string name="computername">ComputerName</string>
+    <string name="user">User</string>
+    <string name="admin_username">Admin_UserName</string>
+    <string name="admin_password">Admin_Password</string>
+    <string name="location">Location</string>
+    <string name="computer_type">Computer_Type</string>
+    <string name="back">Back</string>
+    <string name="edit_record">Edit Record</string>
+    <string name="serial_num">Serial_Num</string>
+    <string name="submit">Submit</string>
+    <string name="done">Done</string>
+    <string name="status">Status</string>
+    <string name="devices">Devices</string>
+</resources>

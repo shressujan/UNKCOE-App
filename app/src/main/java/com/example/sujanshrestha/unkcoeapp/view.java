@@ -109,7 +109,7 @@ public class view extends Activity {
                         CallableStatement stmt = null;
                         try {
                             stmt = MainActivity.conn.prepareCall(call);
-//                            stmt.setString(1, SerialNum);  //How do I GET The Serial NUmber here???????????????????????
+//                            stmt.setString(1, SerialNum);  //How do I GET The Serial Num here???????????????????????
                             stmt.registerOutParameter(2, Types.VARCHAR);
                             stmt.execute();
                         } catch (SQLException e) {

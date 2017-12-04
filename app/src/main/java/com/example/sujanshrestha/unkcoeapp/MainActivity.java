@@ -28,6 +28,7 @@ import java.sql.Statement;
 import java.util.logging.*;
 import com.jcraft.jsch.*;
 
+
 /**
  Created by Sujan Shrestha on 9/12/17.
  */
@@ -47,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
     //Declaring connection variables
    public static Connection conn = null;
-   String userName, passWord, dataBase, iPAddress;
+   String userName, passWord, dataBase, server;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         userName = "UNKCOEADMIN";
         passWord = "UNKCOEADMIN";
         dataBase = "UNKCOEInventory";
-        iPAddress = "localhost";
+        server = "localhost";
 
     }
 
@@ -133,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
 
                 // Create SSH session. Port 22 is your SSH port which
                 // is open in your fire-wall setup.
-                Session session = jsch.getSession(userN, remote_host, 22);
+                Session session = jsch.getSession(userN, remote_host, 8687);
                 String passwordString = new String(passW);
                 session.setPassword(passwordString);
 
@@ -171,12 +172,12 @@ public class MainActivity extends AppCompatActivity {
                 return message;
             }
             message = "Login Successfull!";
-            Log.e("Connection","Server Connected!!");
+            Log.i("Connection","Server Connected!!");
 
                 try {
-                    conn = connectionclass(userName, passWord, dataBase, iPAddress);
+                    conn = connectionclass();
                     if (conn == null) {
-                        message = "Error in connection with SQL server!";
+                        message = "Error in connection with SQL Database!";
                         isSuccessful = false;
                     } else {
                         isSuccessful = true;
@@ -187,8 +188,6 @@ public class MainActivity extends AppCompatActivity {
                     isSuccessful = false;
                     message = e.getMessage();
                 }
-
-            Log.w("Connection", "HERE");
             return message;
         }
 
@@ -207,14 +206,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     *
-     * @param userName
-     * @param passWord
-     * @param dataBase
-     * @param iPAddress
      * @return connection
      */
-    public Connection connectionclass(String userName, String passWord, String dataBase, String iPAddress)
+    public Connection connectionclass()
     {
 
         StrictMode.ThreadPolicy policy  =  new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -223,36 +217,37 @@ public class MainActivity extends AppCompatActivity {
         String connectionURL =  null;
         try
         {
-            Class.forName("net.sourceforge.jtds.jdbc.Driver").newInstance();
-//            Class.forName("com.mysql.jdbc.Driver").newInstance();
+//            String driver = "net.sourceforge.jtds.jdbc.Driver";
+//            Class.forName(driver).newInstance();
+
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
             try {
-//                connectionURL = ("jdbc:jtds:sqlserver://"+ iPAddress + dataBase+";user= "+userName+ ";password= "+ passWord+ ";");
-//                connection =  DriverManager.getConnection(connectionURL);
-//                Log.w("Connection", "open");
 
+//                connectionURL = "jdbc:mysql://" + server + ":"+local_port+";"
+//                        + "databaseName=" + dataBase + ";user=" + userName
+//                        + ";password=" + passWord + ";";
+//                Log.i("Connection", connectionURL);
+//                connection = DriverManager.getConnection(connectionURL);
                 StringBuilder url1 =
-                        new StringBuilder("jdbc:jtds:sqlserver://");
-                url1.append(iPAddress).append(":").append(local_port).append ("/").append(dataBase).append("?zeroDateTimeBehavior=convertToNull");
-              Log.i("Connection",url1.toString());
+                        new StringBuilder("jdbc:mysql://localhost:3306");
+                url1.append ("/").append(dataBase).append("?zeroDateTimeBehavior=convertToNull");
+                System.out.println(url1);
                 connection = DriverManager.getConnection(url1.toString(),userName,passWord);
-                Log.i("Connection","Should be connected");
-
+                Log.w("Connection", "Database Connected!!");
             }
             catch (Exception e)
             {
                 Log.e("Connection",e.getMessage());
             }
-//            connectionURL = ("jdbc:jtds:sqlserver://"+ iPAddress + dataBase+";user= "+userName+ ";password= "+ passWord+ ";");
-//            connection =  DriverManager.getConnection(connectionURL);
-//            Log.w("Connection", "open");
         }
         catch (ClassNotFoundException e) {
-            Log.e("Connection", e.getMessage());
+            Log.i("Connection", e.getMessage());
         } catch (InstantiationException e) {
             Log.e("Connection",e.getMessage());
         } catch (IllegalAccessException e) {
-            Log.e("Connection",e.getMessage());
+            Log.w("Connection",e.getMessage());
         }
+
 
         return connection;
     }

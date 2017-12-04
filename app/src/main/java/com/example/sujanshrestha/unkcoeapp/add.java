@@ -8,13 +8,18 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android. view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
+
 import java.sql.CallableStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 
@@ -62,15 +67,6 @@ public class add extends Activity {
         status = (EditText) findViewById(R.id.Status);
         devices = (EditText) findViewById(R.id.Device);
 
-        ComputerName = computerName.getText().toString();
-        User = user.getText().toString();
-        Admin_UserName = admin_UserName.getText().toString();
-        Admin_Password = admin_Password.getText().toString();
-        Location = location.getText().toString();
-        Computer_Type = computer_Type.getText().toString();
-        Serial_Num = serial_Num.getText().toString();
-        Status = status.getText().toString();
-        Devices = devices.getText().toString();
 
 
     }
@@ -88,29 +84,12 @@ public class add extends Activity {
      * Method that runs when Done button clicked
      * @param view
      */
-    protected void onClickDone(View view) {
-        addClickEffect(view);
+    public void onClickDone(View view) {
 
-        String varSQL1 = "(?,?,?,?,?,?,?,?,?,?)";
-        String call;
-        call = "{CALL UNKCOEInventory.AddRecord" + varSQL1 + "}";
-            CallableStatement stmt = null;
-            try {
-                stmt = MainActivity.conn.prepareCall(call);
-                stmt.setString(1, ComputerName);
-                stmt.setString(2, User);
-                stmt.setString(3, Admin_UserName);
-                stmt.setString(4, Admin_Password);
-                stmt.setString(5, Location);
-                stmt.setString(6, Computer_Type);
-                stmt.setString(7, Serial_Num);
-                stmt.setString(8, Status);
-                stmt.setString(9, Devices);
-                stmt.registerOutParameter(10, Types.VARCHAR);
-                stmt.execute();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+        // this is the Asynctask which is used to process
+        Add add = new Add();
+        //run background to reduce the load on the app process
+        add.execute("");
 
     }
     /**
@@ -139,5 +118,58 @@ public class add extends Activity {
         listDrawable.addState(new int[] {android.R.attr.state_pressed}, drawablePressed);
         listDrawable.addState(new int[] {}, drawableNormal);
         view.setBackground(listDrawable);
+    }
+
+    private  class Add extends AsyncTask<String, String, String> {
+        String message = "";
+        Boolean isSuccessful = false;
+        String varSQL1 = "(?,?,?,?,?,?,?,?,?,?)";
+        @Override
+        protected void onPreExecute() {
+            ComputerName = computerName.getText().toString();
+            User = user.getText().toString();
+            Admin_UserName = admin_UserName.getText().toString();
+            Admin_Password = admin_Password.getText().toString();
+            Location = location.getText().toString();
+            Computer_Type = computer_Type.getText().toString();
+            Serial_Num = serial_Num.getText().toString();
+            Status = status.getText().toString();
+            Devices = devices.getText().toString();
+        }
+        @Override
+        protected String doInBackground(String... strings) {
+            String call;
+            call = "{CALL UNKCOEInventory.AddRecord" + varSQL1 + "}";
+            CallableStatement stmt = null;
+
+            try {
+                stmt = MainActivity.conn.prepareCall(call);
+                stmt.setString(1, ComputerName);
+                stmt.setString(2, User);
+                stmt.setString(3, Admin_UserName);
+                stmt.setString(4, Admin_Password);
+                stmt.setString(5, Location);
+                stmt.setString(6, Computer_Type);
+                stmt.setString(7, Serial_Num);
+                stmt.setString(8, Status);
+                stmt.setString(9, Devices);
+                stmt.registerOutParameter(10, Types.VARCHAR);
+                stmt.executeQuery();
+                isSuccessful = true;
+                message = stmt.getString(10);
+            } catch (SQLException e) {
+                Log.e("Connection",e.getMessage());
+            }
+            return message;
+        }
+        @Override
+        protected void onPostExecute(String s) {
+            if (isSuccessful) {
+                Toast.makeText(add.this, s, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(add.this, add.class);
+                startActivity(intent);
+                finish();
+            }
+        }
     }
 }

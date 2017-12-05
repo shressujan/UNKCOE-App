@@ -22,7 +22,8 @@
 
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true">
 
             <TableLayout
                 android:id="@+id/ReportTable"
@@ -32,7 +33,7 @@
                 android:orientation="horizontal"
                 android:stretchColumns="8">
 
-                <!--THE DATABASE VIEW GOES HERE-->
+                <!--THE DATABASE Header VIEW  HERE-->
 
                 <TableRow
                     android:id="@+id/Row1"
@@ -149,8 +150,22 @@
                         android:textColor="@android:color/black"
                         android:textSize="15dp"
                         android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="200dp"
+                        android:layout_height="match_parent"
+                        android:layout_column="7"
+                        android:layout_margin="1dp"
+                        android:layout_weight=".7"
+                        android:background="@android:color/white"
+                        android:text="@string/devices"
+                        android:textAlignment="center"
+                        android:textColor="@android:color/black"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
                 </TableRow>
             </TableLayout>
+
 
             <ScrollView
                 android:layout_width="match_parent"
@@ -162,8 +177,10 @@
                 android:scrollbarStyle="insideInset"
                 android:scrollbars="vertical">
 
+                <!-- database goes here!!-->
+                <!--
                 <TableLayout
-
+                    android:id="@+id/TheDatabaseTable"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentTop="true"
@@ -290,6 +307,7 @@
 
                     </TableRow>
                 </TableLayout>
+                -->
                 <!--Rest of the record from the UNK COE database goes in here-->
 
             </ScrollView>

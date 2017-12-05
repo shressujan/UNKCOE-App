@@ -10,8 +10,17 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
+import android.util.Log;
 import android.view.View;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TableLayout.LayoutParams;
+import android.widget.TextView;
+import android.graphics.Typeface;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -19,12 +28,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Types;
+import java.sql.ResultSetMetaData;
 
 /**
  * Created by Sujan Shrestha on 9/12/17.
  */
 
 public class view extends Activity {
+    public int rows;
+    private static int columns = 9;
+    public Connection connection;
+    public TableRow tr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +46,18 @@ public class view extends Activity {
 
         //Opens app in portrait mode only
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
         setContentView(R.layout.view_layout);
+
+
+//        addData();
+
+        // this is the Asynctask which is used to process
+        GenerateReport report =  new GenerateReport();
+        //run background to reduce the load on the app process
+        report.execute("");
+
     }
+
 
     /**
      * This method returns the total number of profiles in the inventory record
@@ -45,19 +68,30 @@ public class view extends Activity {
     public int getProfileCount(String table, Connection conn)
     {
         int count = 0;
-        String query = "Select * FROM " + table + "Report";
+        String query = "SELECT COUNT(*) FROM UNKCOEInventory.InventoryReport";
+        Log.e("Connection", query);
         Statement stmt = null;
-        try {
-            stmt = conn.createStatement();
-            ResultSet rs =  stmt.executeQuery(query);
-            if(rs.next())
+
+            if(conn != null)
             {
-                count++;
+                try {
+                    stmt = conn.createStatement();
+                    ResultSet rs = stmt.executeQuery(query);
+                    while(rs.next())
+                    { count++;}
+                    rs.close();
+                    stmt.close();
+                    return count;
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
-        } catch (java.sql.SQLException e) {
-            e.printStackTrace();
-        }
-        return count;
+            else
+            {
+                Log.e("Connection","NULL Connection");
+            }
+
+        return 0;
     }
 
     /**
@@ -154,5 +188,149 @@ public class view extends Activity {
         listDrawable.addState(new int[] {android.R.attr.state_pressed}, drawablePressed);
         listDrawable.addState(new int[] {}, drawableNormal);
         view.setBackground(listDrawable);
+    }
+
+    /** This function add the data to the table **/
+
+//    public void addData(){
+//        TableLayout table =  (TableLayout) findViewById(R.id.TheDatabaseTable);
+//
+//        for (int i = 0; i < rows; i++)
+//        {
+//            /** Create a TableRow dynamically **/
+//            tr = new TableRow(this);
+//            tr.setLayoutParams(new LayoutParams(
+//                    LayoutParams.WRAP_CONTENT,
+//                    LayoutParams.MATCH_PARENT));
+//
+//            /** Creating a TextView to add to the row **/
+//            TextView serialNum = new TextView(this);
+//            serialNum.setText("data");
+//            serialNum.setWidth(Integer.parseInt("130dp"));
+//            serialNum.setTextSize(Float.parseFloat("15dp"));
+//            serialNum.setTextColor(Color.BLACK);
+//            serialNum.setBackgroundColor(Color.WHITE);
+//            serialNum.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+//            tr.addView(serialNum);  // Adding textView to tablerow.
+//
+//            /** Creating another textview **/
+//
+//            TextView user = new TextView(this);
+//            user.setText("data");
+//            user.setWidth(Integer.parseInt("130dp"));
+//            user.setTextSize(Float.parseFloat("15dp"));
+//            user.setTextColor(Color.BLACK);
+//            user.setBackgroundColor(Color.WHITE);
+//            user.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+//            tr.addView(user);  // Adding textView to tablerow.
+//
+//            /** Creating another textview **/
+//
+//            TextView admin_UserName = new TextView(this);
+//            admin_UserName.setText("data");
+//            admin_UserName.setWidth(Integer.parseInt("130dp"));
+//            admin_UserName.setTextSize(Float.parseFloat("15dp"));
+//            admin_UserName.setTextColor(Color.BLACK);
+//            admin_UserName.setBackgroundColor(Color.WHITE);
+//            admin_UserName.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+//            tr.addView(admin_UserName);  // Adding textView to tablerow.
+//
+//            /** Creating another textview **/
+//
+//            TextView admin_Password = new TextView(this);
+//            admin_Password.setText("data");
+//            admin_Password.setWidth(Integer.parseInt("130dp"));
+//            admin_Password.setTextSize(Float.parseFloat("15dp"));
+//            admin_Password.setTextColor(Color.BLACK);
+//            admin_Password.setBackgroundColor(Color.WHITE);
+//            admin_Password.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+//            tr.addView(admin_Password);  // Adding textView to tablerow.
+//
+//            /** Creating another textview **/
+//
+//            TextView location = new TextView(this);
+//            location.setText("data");
+//            location.setWidth(Integer.parseInt("130dp"));
+//            location.setTextSize(Float.parseFloat("15dp"));
+//            location.setTextColor(Color.BLACK);
+//            location.setBackgroundColor(Color.WHITE);
+//            location.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+//            tr.addView(location);  // Adding textView to tablerow.
+//
+//            /** Creating another textview **/
+//
+//            TextView computer_Type = new TextView(this);
+//            computer_Type.setText("data");
+//            computer_Type.setWidth(Integer.parseInt("130dp"));
+//            computer_Type.setTextSize(Float.parseFloat("15dp"));
+//            computer_Type.setTextColor(Color.BLACK);
+//            computer_Type.setBackgroundColor(Color.WHITE);
+//            computer_Type.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+//            tr.addView(computer_Type);  // Adding textView to tablerow.
+//
+//            /** Creating another textview **/
+//
+//            TextView computer_Name = new TextView(this);
+//            computer_Name.setText("data");
+//            computer_Name.setWidth(Integer.parseInt("130dp"));
+//            computer_Name.setTextSize(Float.parseFloat("15dp"));
+//            computer_Name.setTextColor(Color.BLACK);
+//            computer_Name.setBackgroundColor(Color.WHITE);
+//            computer_Name.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+//            tr.addView(computer_Name);  // Adding textView to tablerow.
+//
+//            /** Creating another textview **/
+//
+//            TextView status = new TextView(this);
+//            status.setText("data");
+//            status.setWidth(Integer.parseInt("130dp"));
+//            status.setTextSize(Float.parseFloat("15dp"));
+//            status.setTextColor(Color.BLACK);
+//            status.setBackgroundColor(Color.WHITE);
+//            status.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+//            tr.addView(status);  // Adding textView to tablerow.
+//
+//            /** Creating another textview **/
+//
+//            TextView devices = new TextView(this);
+//            devices.setText("data");
+//            devices.setWidth(Integer.parseInt("130dp"));
+//            devices.setTextSize(Float.parseFloat("15dp"));
+//            devices.setTextColor(Color.BLACK);
+//            devices.setBackgroundColor(Color.WHITE);
+//            devices.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+//            tr.addView(status);  // Adding textView to tablerow.
+//
+//            // Add the TableRow to the TableLayout
+//            table.addView(tr, new TableLayout.LayoutParams(
+//                    LayoutParams.FILL_PARENT,
+//                    LayoutParams.WRAP_CONTENT));
+//        }
+//    }
+
+    private class GenerateReport extends AsyncTask<String, String, String> {
+        @Override
+        protected void onPreExecute() {
+            connection = MainActivity.conn;
+            rows = getProfileCount("UNKCOEInventory.InventoryDatabase", connection);
+            Log.d("Connection", rows+"");
+
+
+        }
+        @Override
+        protected String doInBackground(String... strings) {
+//            TableLayout table =  (TableLayout) findViewById(R.id.TheDatabaseTable);
+//
+//            for(int i = 0; i < rows; i++)
+//            {
+//                TableRow tr = new TableRow();
+//            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+
+        }
     }
 }

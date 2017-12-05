@@ -157,6 +157,7 @@ public class add extends Activity {
                 stmt.executeQuery();
                 isSuccessful = true;
                 message = stmt.getString(10);
+                stmt.close();
             } catch (SQLException e) {
                 Log.e("Connection",e.getMessage());
             }

@@ -32,7 +32,7 @@ import com.jcraft.jsch.*;
 /**
  Created by Sujan Shrestha on 9/12/17.
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity  extends AppCompatActivity implements Methods{
     Button login;
     EditText username;
     EditText password;
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
    String userName, passWord, dataBase, server;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 

@@ -34,14 +34,14 @@ import java.sql.ResultSetMetaData;
  * Created by Sujan Shrestha on 9/12/17.
  */
 
-public class view extends Activity {
+public class view extends Activity implements Methods {
     public int rows;
     private static int columns = 9;
     public Connection connection;
     public TableRow tr;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         //Opens app in portrait mode only

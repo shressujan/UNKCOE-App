@@ -25,7 +25,7 @@ import java.sql.Types;
  * Created by Sujan Shrestha on 9/12/17.
  */
 
-public class edit extends Activity {
+public class edit extends Activity implements Methods{
     EditText computerName;
     EditText user;
     EditText admin_UserName;
@@ -47,7 +47,7 @@ public class edit extends Activity {
     String Devices;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         //Opens app in portrait mode only

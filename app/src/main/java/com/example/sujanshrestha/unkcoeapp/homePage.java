@@ -22,11 +22,11 @@ import java.sql.Statement;
  * Created by Sujan Shrestha on 9/11/17.
  */
 
-public class homePage extends Activity {
+public class homePage extends Activity implements Methods{
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         //Opens app in portrait mode only

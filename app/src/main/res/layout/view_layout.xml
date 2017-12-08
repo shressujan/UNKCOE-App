@@ -141,7 +141,7 @@
                     <TextView
                         android:layout_width="130dp"
                         android:layout_height="match_parent"
-                        android:layout_column="7"
+                        android:layout_column="8"
                         android:layout_margin="1dp"
                         android:layout_weight=".7"
                         android:background="@android:color/white"
@@ -154,7 +154,7 @@
                     <TextView
                         android:layout_width="200dp"
                         android:layout_height="match_parent"
-                        android:layout_column="7"
+                        android:layout_column="9"
                         android:layout_margin="1dp"
                         android:layout_weight=".7"
                         android:background="@android:color/white"
@@ -178,7 +178,7 @@
                 android:scrollbars="vertical">
 
                 <!-- database goes here!!-->
-                <!--
+
                 <TableLayout
                     android:id="@+id/TheDatabaseTable"
                     android:layout_width="wrap_content"
@@ -186,128 +186,129 @@
                     android:layout_alignParentTop="true"
                     android:background="@android:color/black"
                     android:orientation="horizontal"
-                    android:stretchColumns="8">
+                    android:stretchColumns="9">
+                <!--
+                                    <TableRow
 
-                    <TableRow
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent">
 
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent">
+                                        <TextView
+                                            android:id="@+id/Computer_Serial_NumTextView"
+                                            android:layout_width="130dp"
+                                            android:layout_height="match_parent"
+                                            android:layout_column="1"
+                                            android:layout_margin="1dp"
+                                            android:layout_weight=".7"
+                                            android:background="@android:color/white"
+                                            android:text="xx"
+                                            android:textAlignment="center"
+                                            android:textColor="@android:color/black"
+                                            android:textSize="15dp"
+                                            android:textStyle="bold" />
 
-                        <TextView
-                            android:id="@+id/Computer_Serial_NumTextView"
-                            android:layout_width="130dp"
-                            android:layout_height="match_parent"
-                            android:layout_column="1"
-                            android:layout_margin="1dp"
-                            android:layout_weight=".7"
-                            android:background="@android:color/white"
-                            android:text="xx"
-                            android:textAlignment="center"
-                            android:textColor="@android:color/black"
-                            android:textSize="15dp"
-                            android:textStyle="bold" />
+                                        <TextView
+                                            android:id="@+id/UserTextView"
+                                            android:layout_width="130dp"
+                                            android:layout_height="match_parent"
+                                            android:layout_column="2"
+                                            android:layout_margin="1dp"
+                                            android:layout_weight="2"
+                                            android:background="@android:color/white"
+                                            android:text="xx"
+                                            android:textAlignment="center"
+                                            android:textColor="@android:color/black"
+                                            android:textSize="15dp"
+                                            android:textStyle="bold" />
 
-                        <TextView
-                            android:id="@+id/UserTextView"
-                            android:layout_width="130dp"
-                            android:layout_height="match_parent"
-                            android:layout_column="2"
-                            android:layout_margin="1dp"
-                            android:layout_weight="2"
-                            android:background="@android:color/white"
-                            android:text="xx"
-                            android:textAlignment="center"
-                            android:textColor="@android:color/black"
-                            android:textSize="15dp"
-                            android:textStyle="bold" />
+                                        <TextView
+                                            android:id="@+id/Admin_UserNameTextView"
+                                            android:layout_width="130dp"
+                                            android:layout_height="match_parent"
+                                            android:layout_column="3"
+                                            android:layout_margin="1dp"
+                                            android:layout_weight=".7"
+                                            android:background="@android:color/white"
+                                            android:text="xx"
+                                            android:textAlignment="center"
+                                            android:textColor="@android:color/black"
+                                            android:textSize="15dp"
+                                            android:textStyle="bold" />
 
-                        <TextView
-                            android:id="@+id/Admin_UserNameTextView"
-                            android:layout_width="130dp"
-                            android:layout_height="match_parent"
-                            android:layout_column="3"
-                            android:layout_margin="1dp"
-                            android:layout_weight=".7"
-                            android:background="@android:color/white"
-                            android:text="xx"
-                            android:textAlignment="center"
-                            android:textColor="@android:color/black"
-                            android:textSize="15dp"
-                            android:textStyle="bold" />
+                                        <TextView
+                                            android:id="@+id/Admin_PasswordTextView"
+                                            android:layout_width="130dp"
+                                            android:layout_height="match_parent"
+                                            android:layout_column="4"
+                                            android:layout_margin="1dp"
+                                            android:layout_weight=".7"
+                                            android:background="@android:color/white"
+                                            android:text="xx"
+                                            android:textAlignment="center"
+                                            android:textColor="@android:color/black"
+                                            android:textSize="15dp"
+                                            android:textStyle="bold" />
 
-                        <TextView
-                            android:id="@+id/Admin_PasswordTextView"
-                            android:layout_width="130dp"
-                            android:layout_height="match_parent"
-                            android:layout_column="4"
-                            android:layout_margin="1dp"
-                            android:layout_weight=".7"
-                            android:background="@android:color/white"
-                            android:text="xx"
-                            android:textAlignment="center"
-                            android:textColor="@android:color/black"
-                            android:textSize="15dp"
-                            android:textStyle="bold" />
+                                        <TextView
+                                            android:id="@+id/LocationTextView"
+                                            android:layout_width="120dp"
+                                            android:layout_height="match_parent"
+                                            android:layout_column="5"
+                                            android:layout_margin="1dp"
+                                            android:layout_weight=".7"
+                                            android:background="@android:color/white"
+                                            android:text="xx"
+                                            android:textAlignment="center"
+                                            android:textColor="@android:color/black"
+                                            android:textSize="15dp"
+                                            android:textStyle="bold" />
 
-                        <TextView
-                            android:id="@+id/LocationTextView"
-                            android:layout_width="120dp"
-                            android:layout_height="match_parent"
-                            android:layout_column="5"
-                            android:layout_margin="1dp"
-                            android:layout_weight=".7"
-                            android:background="@android:color/white"
-                            android:text="xx"
-                            android:textAlignment="center"
-                            android:textColor="@android:color/black"
-                            android:textSize="15dp"
-                            android:textStyle="bold" />
+                                        <TextView
+                                            android:id="@+id/Computer_TypeTextView"
+                                            android:layout_width="130dp"
+                                            android:layout_height="match_parent"
+                                            android:layout_column="6"
+                                            android:layout_margin="1dp"
+                                            android:layout_weight=".7"
+                                            android:background="@android:color/white"
+                                            android:text="xx"
+                                            android:textAlignment="center"
+                                            android:textColor="@android:color/black"
+                                            android:textSize="15dp"
+                                            android:textStyle="bold" />
 
-                        <TextView
-                            android:id="@+id/Computer_TypeTextView"
-                            android:layout_width="130dp"
-                            android:layout_height="match_parent"
-                            android:layout_column="6"
-                            android:layout_margin="1dp"
-                            android:layout_weight=".7"
-                            android:background="@android:color/white"
-                            android:text="xx"
-                            android:textAlignment="center"
-                            android:textColor="@android:color/black"
-                            android:textSize="15dp"
-                            android:textStyle="bold" />
+                                        <TextView
+                                            android:id="@+id/Computer_IDTextView"
+                                            android:layout_width="130dp"
+                                            android:layout_height="match_parent"
+                                            android:layout_column="7"
+                                            android:layout_margin="1dp"
+                                            android:layout_weight=".7"
+                                            android:background="@android:color/white"
+                                            android:text="xx"
+                                            android:textAlignment="center"
+                                            android:textColor="@android:color/black"
+                                            android:textSize="15dp"
+                                            android:textStyle="bold" />
 
-                        <TextView
-                            android:id="@+id/Computer_IDTextView"
-                            android:layout_width="130dp"
-                            android:layout_height="match_parent"
-                            android:layout_column="7"
-                            android:layout_margin="1dp"
-                            android:layout_weight=".7"
-                            android:background="@android:color/white"
-                            android:text="xx"
-                            android:textAlignment="center"
-                            android:textColor="@android:color/black"
-                            android:textSize="15dp"
-                            android:textStyle="bold" />
+                                        <TextView
+                                            android:id="@+id/Status_TextView"
+                                            android:layout_width="130dp"
+                                            android:layout_height="match_parent"
+                                            android:layout_column="7"
+                                            android:layout_margin="1dp"
+                                            android:layout_weight=".7"
+                                            android:background="@android:color/white"
+                                            android:text="xx"
+                                            android:textAlignment="center"
+                                            android:textColor="@android:color/black"
+                                            android:textSize="15dp"
+                                            android:textStyle="bold" />
 
-                        <TextView
-                            android:id="@+id/Status_TextView"
-                            android:layout_width="130dp"
-                            android:layout_height="match_parent"
-                            android:layout_column="7"
-                            android:layout_margin="1dp"
-                            android:layout_weight=".7"
-                            android:background="@android:color/white"
-                            android:text="xx"
-                            android:textAlignment="center"
-                            android:textColor="@android:color/black"
-                            android:textSize="15dp"
-                            android:textStyle="bold" />
+                                    </TableRow>
+                                    -->
+                                </TableLayout>
 
-                    </TableRow>
-                </TableLayout>
-                -->
                 <!--Rest of the record from the UNK COE database goes in here-->
 
             </ScrollView>

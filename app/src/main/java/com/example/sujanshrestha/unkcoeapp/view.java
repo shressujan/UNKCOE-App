@@ -21,6 +21,8 @@ import android.widget.TableRow;
 import android.widget.TableLayout.LayoutParams;
 import android.widget.TextView;
 import android.graphics.Typeface;
+import android.view.Gravity;
+import android.util.TypedValue;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -39,6 +41,9 @@ public class view extends Activity implements Methods {
     private static int columns = 9;
     public Connection connection;
     public TableRow tr;
+    public String message = null;
+    public boolean connectionReady = false;
+    public  String[][] rowData = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,9 +52,8 @@ public class view extends Activity implements Methods {
         //Opens app in portrait mode only
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.view_layout);
-
-
-//        addData();
+        connection = MainActivity.conn;
+        Log.w("Connection", connection.toString());
 
         // this is the Asynctask which is used to process
         GenerateReport report =  new GenerateReport();
@@ -61,36 +65,35 @@ public class view extends Activity implements Methods {
 
     /**
      * This method returns the total number of profiles in the inventory record
-     * @param table
-     * @param conn
      * @return
      */
-    public int getProfileCount(String table, Connection conn)
+    public int getProfileCount()
     {
-        int count = 0;
-        String query = "SELECT COUNT(*) FROM UNKCOEInventory.InventoryReport";
-        Log.e("Connection", query);
-        Statement stmt = null;
-
-            if(conn != null)
-            {
+        //Getting the the number of rows in the report table
+        int row = 0;
+        try {
+            if(connection!= null) {
+                Statement stmt1 = connection.createStatement();
+                String varSQL1 = "SELECT COUNT(*) FROM UNKCOEInventory.InventoryReport";
+                ResultSet rs = null;
                 try {
-                    stmt = conn.createStatement();
-                    ResultSet rs = stmt.executeQuery(query);
-                    while(rs.next())
-                    { count++;}
-                    rs.close();
-                    stmt.close();
-                    return count;
+                    rs = stmt1.executeQuery(varSQL1);
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                    Log.d("Connection", e.getMessage());
                 }
+                catch (Exception ex)
+                {
+                    Log.w("Connection", ex.getMessage());
+                }
+                rs.next();
+                row = rs.getInt(1);
+                rs.close();
+                stmt1.close();
+                return row;
             }
-            else
-            {
-                Log.e("Connection","NULL Connection");
-            }
-
+        } catch (Exception ex) {
+                Log.i("Connection", ex.getMessage());
+        }
         return 0;
     }
 
@@ -190,147 +193,185 @@ public class view extends Activity implements Methods {
         view.setBackground(listDrawable);
     }
 
+
+
     /** This function add the data to the table **/
 
-//    public void addData(){
-//        TableLayout table =  (TableLayout) findViewById(R.id.TheDatabaseTable);
-//
-//        for (int i = 0; i < rows; i++)
-//        {
-//            /** Create a TableRow dynamically **/
-//            tr = new TableRow(this);
-//            tr.setLayoutParams(new LayoutParams(
-//                    LayoutParams.WRAP_CONTENT,
-//                    LayoutParams.MATCH_PARENT));
-//
-//            /** Creating a TextView to add to the row **/
-//            TextView serialNum = new TextView(this);
-//            serialNum.setText("data");
-//            serialNum.setWidth(Integer.parseInt("130dp"));
-//            serialNum.setTextSize(Float.parseFloat("15dp"));
-//            serialNum.setTextColor(Color.BLACK);
-//            serialNum.setBackgroundColor(Color.WHITE);
-//            serialNum.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
-//            tr.addView(serialNum);  // Adding textView to tablerow.
-//
-//            /** Creating another textview **/
-//
-//            TextView user = new TextView(this);
-//            user.setText("data");
-//            user.setWidth(Integer.parseInt("130dp"));
-//            user.setTextSize(Float.parseFloat("15dp"));
-//            user.setTextColor(Color.BLACK);
-//            user.setBackgroundColor(Color.WHITE);
-//            user.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
-//            tr.addView(user);  // Adding textView to tablerow.
-//
-//            /** Creating another textview **/
-//
-//            TextView admin_UserName = new TextView(this);
-//            admin_UserName.setText("data");
-//            admin_UserName.setWidth(Integer.parseInt("130dp"));
-//            admin_UserName.setTextSize(Float.parseFloat("15dp"));
-//            admin_UserName.setTextColor(Color.BLACK);
-//            admin_UserName.setBackgroundColor(Color.WHITE);
-//            admin_UserName.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
-//            tr.addView(admin_UserName);  // Adding textView to tablerow.
-//
-//            /** Creating another textview **/
-//
-//            TextView admin_Password = new TextView(this);
-//            admin_Password.setText("data");
-//            admin_Password.setWidth(Integer.parseInt("130dp"));
-//            admin_Password.setTextSize(Float.parseFloat("15dp"));
-//            admin_Password.setTextColor(Color.BLACK);
-//            admin_Password.setBackgroundColor(Color.WHITE);
-//            admin_Password.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
-//            tr.addView(admin_Password);  // Adding textView to tablerow.
-//
-//            /** Creating another textview **/
-//
-//            TextView location = new TextView(this);
-//            location.setText("data");
-//            location.setWidth(Integer.parseInt("130dp"));
-//            location.setTextSize(Float.parseFloat("15dp"));
-//            location.setTextColor(Color.BLACK);
-//            location.setBackgroundColor(Color.WHITE);
-//            location.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
-//            tr.addView(location);  // Adding textView to tablerow.
-//
-//            /** Creating another textview **/
-//
-//            TextView computer_Type = new TextView(this);
-//            computer_Type.setText("data");
-//            computer_Type.setWidth(Integer.parseInt("130dp"));
-//            computer_Type.setTextSize(Float.parseFloat("15dp"));
-//            computer_Type.setTextColor(Color.BLACK);
-//            computer_Type.setBackgroundColor(Color.WHITE);
-//            computer_Type.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
-//            tr.addView(computer_Type);  // Adding textView to tablerow.
-//
-//            /** Creating another textview **/
-//
-//            TextView computer_Name = new TextView(this);
-//            computer_Name.setText("data");
-//            computer_Name.setWidth(Integer.parseInt("130dp"));
-//            computer_Name.setTextSize(Float.parseFloat("15dp"));
-//            computer_Name.setTextColor(Color.BLACK);
-//            computer_Name.setBackgroundColor(Color.WHITE);
-//            computer_Name.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
-//            tr.addView(computer_Name);  // Adding textView to tablerow.
-//
-//            /** Creating another textview **/
-//
-//            TextView status = new TextView(this);
-//            status.setText("data");
-//            status.setWidth(Integer.parseInt("130dp"));
-//            status.setTextSize(Float.parseFloat("15dp"));
-//            status.setTextColor(Color.BLACK);
-//            status.setBackgroundColor(Color.WHITE);
-//            status.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
-//            tr.addView(status);  // Adding textView to tablerow.
-//
-//            /** Creating another textview **/
-//
-//            TextView devices = new TextView(this);
-//            devices.setText("data");
-//            devices.setWidth(Integer.parseInt("130dp"));
-//            devices.setTextSize(Float.parseFloat("15dp"));
-//            devices.setTextColor(Color.BLACK);
-//            devices.setBackgroundColor(Color.WHITE);
-//            devices.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
-//            tr.addView(status);  // Adding textView to tablerow.
-//
-//            // Add the TableRow to the TableLayout
-//            table.addView(tr, new TableLayout.LayoutParams(
-//                    LayoutParams.FILL_PARENT,
-//                    LayoutParams.WRAP_CONTENT));
-//        }
-//    }
+    public void addData( String[][] rowData){
+        TableLayout table =  (TableLayout) findViewById(R.id.TheDatabaseTable);
+        int dps = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 130, getResources().getDisplayMetrics());
+        int dpsDevice = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200, getResources().getDisplayMetrics());
+        int dpsHeight = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40, getResources().getDisplayMetrics());
+        for (int i = 1; i < rows; i++)
+        {
+
+            /** Create a TableRow dynamically **/
+            tr = new TableRow(this);
+            tr.setLayoutParams(new LayoutParams(
+                    LayoutParams.WRAP_CONTENT,
+                    LayoutParams.MATCH_PARENT));
+
+            /** Creating a TextView to add to the row **/
+            TextView serialNum = new TextView(this);
+            serialNum.setText(rowData[i][0]);
+            serialNum.setWidth(dps);
+            serialNum.setHeight(dpsHeight);
+            serialNum.setTextColor(Color.BLACK);
+            serialNum.setBackgroundColor(Color.WHITE);
+            serialNum.setGravity(Gravity.CENTER);
+            serialNum.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+            tr.addView(serialNum);  // Adding textView to tablerow.
+
+            /** Creating another textview **/
+
+            TextView user = new TextView(this);
+            user.setText(rowData[i][1]);
+            user.setWidth(dps);
+            user.setHeight(dpsHeight);
+            user.setTextColor(Color.BLACK);
+            user.setBackgroundColor(Color.WHITE);
+            user.setGravity(Gravity.CENTER);
+            user.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+            tr.addView(user);  // Adding textView to tablerow.
+
+            /** Creating another textview **/
+
+            TextView admin_UserName = new TextView(this);
+            admin_UserName.setText(rowData[i][2]);
+            admin_UserName.setHeight(dpsHeight);
+            admin_UserName.setWidth(dps);
+            admin_UserName.setTextColor(Color.BLACK);
+            admin_UserName.setBackgroundColor(Color.WHITE);
+            admin_UserName.setGravity(Gravity.CENTER);
+            admin_UserName.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+            tr.addView(admin_UserName);  // Adding textView to tablerow.
+
+            /** Creating another textview **/
+
+            TextView admin_Password = new TextView(this);
+            admin_Password.setText(rowData[i][3]);
+            admin_Password.setHeight(dpsHeight);
+            admin_Password.setWidth(dps);
+            admin_Password.setTextColor(Color.BLACK);
+            admin_Password.setBackgroundColor(Color.WHITE);
+            admin_Password.setGravity(Gravity.CENTER);
+            admin_Password.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+            tr.addView(admin_Password);  // Adding textView to tablerow.
+
+            /** Creating another textview **/
+
+            TextView location = new TextView(this);
+            location.setText(rowData[i][4]);
+            location.setWidth(dps);
+            location.setTextColor(Color.BLACK);
+            location.setHeight(dpsHeight);
+            location.setBackgroundColor(Color.WHITE);
+            location.setGravity(Gravity.CENTER);
+            location.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+            tr.addView(location);  // Adding textView to tablerow.
+
+            /** Creating another textview **/
+
+            TextView computer_Type = new TextView(this);
+            computer_Type.setText(rowData[i][5]);
+            computer_Type.setWidth(dps);
+            computer_Type.setTextColor(Color.BLACK);
+            computer_Type.setHeight(dpsHeight);
+            computer_Type.setBackgroundColor(Color.WHITE);
+            computer_Type.setGravity(Gravity.CENTER);
+            computer_Type.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+            tr.addView(computer_Type);  // Adding textView to tablerow.
+
+            /** Creating another textview **/
+
+            TextView computer_Name = new TextView(this);
+            computer_Name.setText(rowData[i][6]);
+            computer_Name.setWidth(dps);
+            computer_Name.setTextColor(Color.BLACK);
+            computer_Name.setHeight(dpsHeight);
+            computer_Name.setBackgroundColor(Color.WHITE);
+            computer_Name.setGravity(Gravity.CENTER);
+            computer_Name.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+            tr.addView(computer_Name);  // Adding textView to tablerow.
+
+            /** Creating another textview **/
+
+            TextView status = new TextView(this);
+            status.setText(rowData[i][7]);
+            status.setWidth(dps);
+            status.setHeight(dpsHeight);
+            status.setTextColor(Color.BLACK);
+            status.setBackgroundColor(Color.WHITE);
+            status.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+            status.setGravity(Gravity.CENTER);
+            tr.addView(status);  // Adding textView to tablerow.
+
+            /** Creating another textview **/
+
+            TextView devices = new TextView(this);
+            devices.setText(rowData[i][8]);
+            devices.setWidth(dpsDevice);
+            devices.setHeight(dpsHeight);
+            devices.setTextColor(Color.BLACK);
+            devices.setBackgroundColor(Color.WHITE);
+            devices.setGravity(Gravity.CENTER);
+            devices.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+            tr.addView(devices);  // Adding textView to tablerow.
+
+            // Add the TableRow to the TableLayout
+            table.addView(tr);
+        }
+    }
 
     private class GenerateReport extends AsyncTask<String, String, String> {
         @Override
         protected void onPreExecute() {
-            connection = MainActivity.conn;
-            rows = getProfileCount("UNKCOEInventory.InventoryDatabase", connection);
-            Log.d("Connection", rows+"");
 
 
         }
         @Override
         protected String doInBackground(String... strings) {
-//            TableLayout table =  (TableLayout) findViewById(R.id.TheDatabaseTable);
-//
-//            for(int i = 0; i < rows; i++)
-//            {
-//                TableRow tr = new TableRow();
-//            }
-            return null;
+            try {
+                rows = getProfileCount();
+                Log.d("Connection", rows + "");
+                //Getting actual data from the database
+                try {
+                    Statement stmt = connection.createStatement();
+                    String varSQL1 = "SELECT * FROM UNKCOEInventory.InventoryReport";
+                    ResultSet rs = stmt.executeQuery(varSQL1);
+                    ResultSetMetaData rsMeta = rs.getMetaData();
+                    int columns = rsMeta.getColumnCount();
+                    rowData = new String[rows][9];
+                    String Name = "";
+                    int b = 0;
+                    while (rs.next()) {
+                        for (int c = 1; c <= columns; c++) {
+                            Name += rs.getString(c) + " ";
+                            rowData[b][c - 1] = Name;
+                            Name = "";
+                        }
+                        b++;
+                    }
+                }
+                catch (SQLException ex) {
+                    Log.e("Connection", ex.getMessage());
+                    }
+                connectionReady = true;
+                message = "Report query successfull!!";
+            }
+            catch (Exception e)
+            {
+
+            }
+
+            return message;
         }
 
         @Override
         protected void onPostExecute(String s) {
-
+            if(connectionReady) {
+                addData(rowData);
+            }
         }
     }
 }

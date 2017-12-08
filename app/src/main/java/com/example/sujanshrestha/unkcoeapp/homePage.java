@@ -9,6 +9,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -54,7 +55,7 @@ public class homePage extends Activity implements Methods{
     public void onClickView(View view)
     {
         addClickEffect(view);
-
+        Log.w("Connection", MainActivity.conn.toString());
         Intent intent = new Intent(this, view.class);
         startActivity(intent);
     }
@@ -68,25 +69,6 @@ public class homePage extends Activity implements Methods{
     public void onClickInfo(View view)
     {
         addClickEffect(view);
-
-//        //Getting the the number of rows in the report table
-//        int row = 0;
-//        try {
-//            Statement stmt1 = MainActivity.conn.createStatement();
-//            String varSQL1 = "SELECT COUNT(*) FROM Report";
-//            ResultSet rs = null;
-//            try {
-//                rs = stmt1.executeQuery(varSQL1);
-//            } catch (SQLException e) {
-//                e.printStackTrace();
-//            }
-//            rs.next();
-//            row = rs.getInt(1);
-//            rs.close();
-//            stmt1.close();
-//        } catch (SQLException ex) {
-//
-//        }
 
         Intent intent = new Intent(this, info.class);
         startActivity(intent);

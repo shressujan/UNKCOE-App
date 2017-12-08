@@ -222,17 +222,17 @@ public class MainActivity  extends AppCompatActivity implements Methods{
 
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             try {
-
+                connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/"+dataBase+"?autoReconnect=true",userName,passWord);
 //                connectionURL = "jdbc:mysql://" + server + ":"+local_port+";"
 //                        + "databaseName=" + dataBase + ";user=" + userName
 //                        + ";password=" + passWord + ";";
 //                Log.i("Connection", connectionURL);
 //                connection = DriverManager.getConnection(connectionURL);
-                StringBuilder url1 =
-                        new StringBuilder("jdbc:mysql://localhost:3306");
-                url1.append ("/").append(dataBase).append("?zeroDateTimeBehavior=convertToNull");
-                System.out.println(url1);
-                connection = DriverManager.getConnection(url1.toString(),userName,passWord);
+//                StringBuilder url1 =
+//                        new StringBuilder("jdbc:mysql://localhost:3306");
+//                url1.append ("/").append(dataBase).append("?zeroDateTimeBehavior=convertToNull");
+//                System.out.println(url1);
+//                connection = DriverManager.getConnection(url1.toString(),userName,passWord);
                 Log.w("Connection", "Database Connected!!");
             }
             catch (Exception e)

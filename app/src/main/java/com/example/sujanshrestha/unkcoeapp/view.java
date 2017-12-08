@@ -46,6 +46,7 @@ public class view extends Activity implements Methods {
     public boolean connectionReady = false;
     public  String[][] rowData = null;
     public boolean isDeleted = false;
+    private    String SerialNum;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -162,6 +163,7 @@ public class view extends Activity implements Methods {
         Boolean isDeleted = false;
         @Override
         protected void onPreExecute() {
+            SerialNum = "";  //How do I GET The Serial Num here???????????????????????
 
         }
         @Override
@@ -172,7 +174,7 @@ public class view extends Activity implements Methods {
             CallableStatement stmt = null;
             try {
                 stmt = MainActivity.conn.prepareCall(call);
-//                            stmt.setString(1, SerialNum);  //How do I GET The Serial Num here???????????????????????
+                stmt.setString(1, SerialNum);
                 stmt.registerOutParameter(2, Types.VARCHAR);
                 stmt.execute();
                 isDeleted = true;

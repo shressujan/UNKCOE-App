@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.graphics.Typeface;
 import android.view.Gravity;
 import android.util.TypedValue;
+import android.widget.Toast;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -44,6 +45,7 @@ public class view extends Activity implements Methods {
     public String message = null;
     public boolean connectionReady = false;
     public  String[][] rowData = null;
+    public boolean isDeleted = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -92,7 +94,7 @@ public class view extends Activity implements Methods {
                 return row;
             }
         } catch (Exception ex) {
-                Log.i("Connection", ex.getMessage());
+            Log.i("Connection", ex.getMessage());
         }
         return 0;
     }
@@ -104,7 +106,7 @@ public class view extends Activity implements Methods {
     public void onClickEdit(final View view)
     {
 
-    addClickEffect(view);
+        addClickEffect(view);
         new AlertDialog.Builder(this)
                 .setTitle("Edit Record")
                 .setMessage("Are you sure you want to Edit this record?")
@@ -140,18 +142,8 @@ public class view extends Activity implements Methods {
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String varSQL1 = "(?,?)";
-                        String call;
-                        call = "{CALL UNKCOEInventory.DeleteRecord" + varSQL1 + "}";
-                        CallableStatement stmt = null;
-                        try {
-                            stmt = MainActivity.conn.prepareCall(call);
-//                            stmt.setString(1, SerialNum);  //How do I GET The Serial Num here???????????????????????
-                            stmt.registerOutParameter(2, Types.VARCHAR);
-                            stmt.execute();
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
+                        Delete del = new Delete();
+                        del.execute("");
                     }
                 })
                 .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -163,6 +155,43 @@ public class view extends Activity implements Methods {
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
 
+    }
+
+    private  class Delete extends AsyncTask<String, String, String> {
+        String message = "";
+        Boolean isDeleted = false;
+        @Override
+        protected void onPreExecute() {
+
+        }
+        @Override
+        protected String doInBackground(String... strings) {
+            String varSQL1 = "(?,?)";
+            String call;
+            call = "{CALL UNKCOEInventory.DeleteRecord" + varSQL1 + "}";
+            CallableStatement stmt = null;
+            try {
+                stmt = MainActivity.conn.prepareCall(call);
+//                            stmt.setString(1, SerialNum);  //How do I GET The Serial Num here???????????????????????
+                stmt.registerOutParameter(2, Types.VARCHAR);
+                stmt.execute();
+                isDeleted = true;
+                message = stmt.getString(2);
+                stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return message;
+        }
+        @Override
+        protected void onPostExecute(String s) {
+            if (isDeleted) {
+                Toast.makeText(view.this, s, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(view.this, view.class);
+                startActivity(intent);
+                finish();
+            }
+        }
     }
 
     /**
@@ -355,7 +384,7 @@ public class view extends Activity implements Methods {
                 }
                 catch (SQLException ex) {
                     Log.e("Connection", ex.getMessage());
-                    }
+                }
                 connectionReady = true;
                 message = "Report query successfull!!";
             }

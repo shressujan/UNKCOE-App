@@ -144,13 +144,13 @@ public class add extends Activity implements Methods{
 
             try {
                 stmt = MainActivity.conn.prepareCall(call);
-                stmt.setString(1, ComputerName);
-                stmt.setString(2, User);
-                stmt.setString(3, Admin_UserName);
-                stmt.setString(4, Admin_Password);
-                stmt.setString(5, Location);
-                stmt.setString(6, Computer_Type);
-                stmt.setString(7, Serial_Num);
+                stmt.setString(1, Serial_Num);
+                stmt.setString(2, ComputerName);
+                stmt.setString(3, User);
+                stmt.setString(4, Admin_UserName);
+                stmt.setString(5, Admin_Password);
+                stmt.setString(6, Location);
+                stmt.setString(7, Computer_Type);
                 stmt.setString(8, Status);
                 stmt.setString(9, Devices);
                 stmt.registerOutParameter(10, Types.VARCHAR);

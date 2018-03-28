@@ -44,7 +44,7 @@ public class MainActivity  extends AppCompatActivity implements Methods{
 
     // Remote host and port
     final int remote_port = 3306;
-    final String remote_host = "db-csit.unk.edu";
+    final String remote_host = "********";
 
     //Declaring connection variables
    public static Connection conn = null;
